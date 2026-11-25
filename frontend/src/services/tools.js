@@ -1,0 +1,111 @@
+import { FiBookOpen, FiBriefcase, FiEdit3, FiMail, FiCode, FiTrendingUp } from "react-icons/fi";
+
+// UI definition of the six specialised tools. Each tool sends its prompt to the
+// same Gemini-backed /api/chat endpoint with its `id` as the `tool` field
+// (the backend applies the matching system instruction).
+export const TOOLS = [
+  {
+    id: "study",
+    name: "AI Study Assistant",
+    icon: FiBookOpen,
+    color: "#6366f1",
+    description: "Simple explanations, short notes, MCQs and difficult concepts made easy.",
+    inputLabel: "Topic or text",
+    placeholder: "e.g. Photosynthesis, Newton's laws, the French Revolution...",
+    optionLabel: "Level",
+    options: ["Beginner", "Intermediate", "Advanced"],
+    modes: [
+      { id: "explain", label: "Explain simply", build: (t, o) => `Explain this topic in simple language for a ${o} learner, with an example:\n\n${t}` },
+      { id: "notes", label: "Short notes", build: (t, o) => `Create short, well-organised revision notes (${o} level) on:\n\n${t}` },
+      { id: "mcq", label: "Generate MCQs", build: (t, o) => `Generate 5 multiple-choice questions (${o} level) on the following topic. Give 4 options each, then the correct answer and a one-line explanation:\n\n${t}` },
+      { id: "concept", label: "Difficult concept", build: (t, o) => `Break down this difficult concept step by step using analogies (${o} level):\n\n${t}` },
+    ],
+  },
+  {
+    id: "career",
+    name: "AI Career Assistant",
+    icon: FiBriefcase,
+    color: "#0ea5e9",
+    description: "Interview questions, preparation plans, job roles and skills to learn.",
+    inputLabel: "Role, field or goal",
+    placeholder: "e.g. Junior data analyst, Product manager, Frontend developer...",
+    optionLabel: "Experience",
+    options: ["Fresher", "1-3 years", "3-7 years", "Senior"],
+    modes: [
+      { id: "interview", label: "Interview questions", build: (t, o) => `Generate 10 likely interview questions for the role "${t}" (candidate experience: ${o}), with short tips on how to answer each.` },
+      { id: "strategy", label: "Preparation strategy", build: (t, o) => `Suggest a practical, week-by-week career preparation strategy for becoming a "${t}" (current experience: ${o}).` },
+      { id: "role", label: "Explain job role", build: (t, o) => `Explain the job role "${t}": daily responsibilities, tools, salary factors, growth path and who it suits (experience: ${o}).` },
+      { id: "skills", label: "Skills to learn", build: (t, o) => `List the skills I should learn for "${t}" (experience: ${o}), grouped by priority, with suggested learning order and free resources.` },
+    ],
+  },
+  {
+    id: "content",
+    name: "AI Content Writer",
+    icon: FiEdit3,
+    color: "#ec4899",
+    description: "Captions, blog posts, creative writing and text improvement.",
+    inputLabel: "Topic or your text",
+    placeholder: "Describe what to write about, or paste text to improve...",
+    optionLabel: "Tone",
+    options: ["Professional", "Friendly", "Persuasive", "Humorous", "Inspirational"],
+    modes: [
+      { id: "caption", label: "Social captions", build: (t, o) => `Write 5 social media captions with relevant hashtags, in a ${o} tone, about:\n\n${t}` },
+      { id: "blog", label: "Write a blog", build: (t, o) => `Write a well-structured blog post (title, intro, headings, conclusion) in a ${o} tone about:\n\n${t}` },
+      { id: "creative", label: "Creative content", build: (t, o) => `Write a creative piece in a ${o} tone based on this idea:\n\n${t}` },
+      { id: "improve", label: "Improve my text", build: (t, o) => `Improve the following text: fix grammar, clarity and flow, using a ${o} tone. Show the improved version, then a short list of what you changed.\n\n${t}` },
+    ],
+  },
+  {
+    id: "email",
+    name: "AI Email Generator",
+    icon: FiMail,
+    color: "#f59e0b",
+    description: "Professional emails, follow-ups, placement messages and formal letters.",
+    inputLabel: "What should the email say?",
+    placeholder: "e.g. Request a meeting with my manager about a project deadline extension...",
+    optionLabel: "Tone",
+    options: ["Formal", "Polite & friendly", "Concise", "Assertive"],
+    modes: [
+      { id: "professional", label: "Professional email", build: (t, o) => `Write a professional email (${o} tone). Details:\n\n${t}` },
+      { id: "followup", label: "Follow-up email", build: (t, o) => `Write a follow-up email (${o} tone). Context:\n\n${t}` },
+      { id: "placement", label: "Placement message", build: (t, o) => `Draft a placement / job-application message or email (${o} tone). Details:\n\n${t}` },
+      { id: "formal", label: "Formal communication", build: (t, o) => `Write a formal letter or official communication (${o} tone). Details:\n\n${t}` },
+    ],
+  },
+  {
+    id: "coding",
+    name: "AI Coding Assistant",
+    icon: FiCode,
+    color: "#10b981",
+    description: "Explain concepts, generate code, debug errors and walk through code.",
+    inputLabel: "Question, code or error message",
+    placeholder: "Paste code, an error message, or describe what you want to build...",
+    optionLabel: "Language",
+    options: ["Python", "JavaScript", "Java", "C++", "SQL", "TypeScript", "Other / auto-detect"],
+    modes: [
+      { id: "explain", label: "Explain concept", build: (t, o) => `Explain this programming concept with a short ${o} example:\n\n${t}` },
+      { id: "generate", label: "Generate code", build: (t, o) => `Write clean, commented ${o} code for the following, then briefly explain how it works:\n\n${t}` },
+      { id: "debug", label: "Debug error", build: (t, o) => `Debug the following (${o}). Identify the root cause, show the fix, and explain why it happened:\n\n${t}` },
+      { id: "walkthrough", label: "Explain code step by step", build: (t, o) => `Explain this ${o} code step by step:\n\n${t}` },
+    ],
+  },
+  {
+    id: "business",
+    name: "Business Idea Generator",
+    icon: FiTrendingUp,
+    color: "#ef4444",
+    description: "Startup ideas, marketing strategies, business plans and brand names.",
+    inputLabel: "Industry, interest or business",
+    placeholder: "e.g. Sustainable food delivery in small cities, a fitness app for students...",
+    optionLabel: "Budget",
+    options: ["Very low", "Low", "Medium", "High"],
+    modes: [
+      { id: "ideas", label: "Startup ideas", build: (t, o) => `Suggest 5 startup ideas (budget: ${o}) related to:\n\n${t}\n\nFor each: problem, target customers, revenue model and first steps.` },
+      { id: "marketing", label: "Marketing strategy", build: (t, o) => `Create a marketing strategy (budget: ${o}) for:\n\n${t}` },
+      { id: "plan", label: "Business plan", build: (t, o) => `Create a concise business plan (budget: ${o}) for:\n\n${t}\n\nInclude summary, market, product, marketing, operations, finances and risks.` },
+      { id: "names", label: "Brand names", build: (t, o) => `Suggest 15 creative, memorable brand names (with a one-line rationale and a tagline idea for the best 3) for:\n\n${t}` },
+    ],
+  },
+];
+
+export const getTool = (id) => TOOLS.find((t) => t.id === id);
